@@ -45,8 +45,7 @@ export default class Effect {
                     this,
                     x0,
                     y0,
-                    `rgb(${red},${green},${blue})`,
-                    // [red, green , blue, alpha],
+                    `rgb(${red},${green},${blue})`
                 ))
             }
         }
@@ -75,13 +74,6 @@ export default class Effect {
             this.height
         ) // clears whole canvas
     }
-
-    // animate = (context) => {
-    //     this.clearCanvas(context);
-    //     this.draw(context);
-    //     this.update();
-    //     requestAnimationFrame(() => this.animate(context))
-    // }
 
     animate = (context) => {
         this.clearCanvas(context);

@@ -1,5 +1,5 @@
 export default class Particle {
-    constructor(effect, x0, y0, color, rgba) {
+    constructor(effect, x0, y0, color) {
         this.effect = effect;
 
         this.x0 = x0
@@ -11,7 +11,6 @@ export default class Particle {
         this.vx = 0
         this.vy = 0
         
-        this.rgba = rgba
         this.color = color
         this.size0 = this.effect.skip + 1;
         this.size = this.size0 * (5 * Math.random() + 1);
