@@ -42,3 +42,6 @@ button:hover {
     display: none;
 }
 
+#save {
+    display: none;
+}
