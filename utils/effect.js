@@ -1,23 +1,32 @@
 import Particle from "./particles.js";
 
 export default class Effect {
-    constructor(width, height, effectArea) {        
-        this.width = width;
-        this.height = height;
-        
-        this.effectArea = effectArea;
+    constructor(context, canvas, imgInfo) {
+        this.context = context        
+        this.width = canvas.width;
+        this.height = canvas.height;
+        this.imgInfo = imgInfo;
 
         this.particleArray;
         this.skip = 1
+        this.mouse = {
+            RXR: 6400,
+            x: undefined,
+            y: undefined
+        }
+        window.addEventListener('mousemove', e => {
+            this.mouse.x = e.x
+            this.mouse.y = e.y
+        })
     }
 
-    init(context) {
-        const height = this.effectArea.height;
-        const width = this.effectArea.width;
-        const topLeftX = this.effectArea.topLeftX;
-        const topLeftY = this.effectArea.topLeftY;
+    init() {
+        const height = this.imgInfo.height;
+        const width = this.imgInfo.width;
+        const topLeftX = this.imgInfo.topLeftX;
+        const topLeftY = this.imgInfo.topLeftY;
 
-        const imageData = context.getImageData(
+        const imageData = this.context.getImageData(
             topLeftX,
             topLeftY,
             width,
@@ -52,8 +61,8 @@ export default class Effect {
         this.particleArray = pixels
     }
 
-    draw(context) {
-        this.particleArray.forEach(particle => particle.draw(context));
+    draw() {
+        this.particleArray.forEach(particle => particle.draw());
     }
 
     update() {
@@ -66,21 +75,21 @@ export default class Effect {
         })
     }
 
-    clearCanvas(context) {
-        context.clearRect(
+    clearCanvas() {
+        this.context.clearRect(
             0,
             0,
             this.width,
             this.height
-        ) // clears whole canvas
+        )
     }
 
-    animate = (context) => {
-        this.clearCanvas(context);
+    animate = () => {
+        this.clearCanvas();
         this.particleArray.forEach(particle => {
-            particle.draw(context);
-            particle.update();
+            particle.draw()
+            particle.update()
         })
-        requestAnimationFrame(() => this.animate(context))
+        requestAnimationFrame(() => this.animate())
     }
 }

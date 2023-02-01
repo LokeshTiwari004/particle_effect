@@ -14,10 +14,10 @@ let img = new Image();
 img.onload = main;
 function main() {
     const imgInfo = drawImage(this, canvas, context);
-    const effect = new Effect(canvas.width, canvas.height, imgInfo);
-    effect.init(context);
+    const effect = new Effect(context, canvas, imgInfo);
+    effect.init();
     effect.warp(warpButton);
-    effect.animate(context);
+    effect.animate();
 }
 
 img.src = "./images/fish.png"
