@@ -17,7 +17,7 @@ function main() {
     const effect = new Effect(context, canvas, imgInfo);
     effect.init();
     effect.warp(warpButton);
-    // effect.initRecording(document.querySelector('.controls'), 0)
+    effect.initRecording(document.querySelector('.controls'), 1)
     effect.animate();
 }
 
