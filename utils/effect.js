@@ -2,7 +2,8 @@ import Particle from "./particles.js";
 
 export default class Effect {
     constructor(context, canvas, imgInfo) {
-        this.context = context        
+        this.context = context
+        this.canvas = canvas
         this.width = canvas.width;
         this.height = canvas.height;
         this.imgInfo = imgInfo;
@@ -32,11 +33,11 @@ export default class Effect {
             width,
             height
         )
-        
+
         const skip = this.skip + 1
         const pixels = []
-        for (let r = 0; r < height; r+= skip) {
-            for (let c = 0; c < width; c+= skip) {
+        for (let r = 0; r < height; r += skip) {
+            for (let c = 0; c < width; c += skip) {
                 const index = 4 * (c + r * width);
                 const alpha = imageData.data[index + 3]
                 if (alpha < 32) {
@@ -68,7 +69,7 @@ export default class Effect {
     update() {
         this.particleArray.forEach(particle => particle.update());
     }
-    
+
     warp(button) {
         button.addEventListener('click', () => {
             this.particleArray.forEach(particle => particle.warp())
@@ -91,5 +92,62 @@ export default class Effect {
             particle.update()
         })
         requestAnimationFrame(() => this.animate())
+    }
+
+    initRecording(container, recording = 0) {
+        var link = document.createElement('a')
+
+        var videoStream = this.canvas.captureStream(60);
+        var mediaRecorder = new MediaRecorder(videoStream);
+
+        var chunks = []
+        mediaRecorder.ondataavailable = e => {
+            chunks.push(e.data)
+        }
+        mediaRecorder.onstop = () => {
+            var blob = new Blob(chunks, { 'type': 'video/mp4' });
+            chunks = []
+            var blobURL = URL.createObjectURL(blob);
+            link.href = blobURL
+            link.download = "video.mp4"
+        }
+
+        const save = document.createElement('button');
+        save.id = 'save';
+        save.style.display = 'none' 
+        save.innerHTML = 'Save'
+        save.addEventListener('click', () => {
+            link.click()
+            save.style.display = 'none'
+        })
+
+
+        var recording = recording
+        function toggleRecord(e) {
+            if (recording) {
+                recording = 0
+                mediaRecorder.stop()
+                
+                e.target.innerHTML = 'Start Recording'
+                save.style.display = 'inline'
+            } else {
+                recording = 1
+                mediaRecorder.start()
+                
+                e.target.innerHTML = 'Stop Recording'
+                save.style.display = 'none';
+            }
+        }
+        
+        const toggleRecorder = document.createElement("button");
+        toggleRecorder.id = 'toggleRecorder'
+        toggleRecorder.innerHTML = recording ? 'Stop Recording': 'Start Recoring'
+        toggleRecorder.addEventListener('click', e => toggleRecord(e))
+
+
+        container.appendChild(toggleRecorder)
+        container.appendChild(save)
+
+        recording ? mediaRecorder.start() : undefined
     }
 }
