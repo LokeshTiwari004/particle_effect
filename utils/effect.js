@@ -1,6 +1,7 @@
 import Particle from "./particles.js";
 import drawImage from "./drawImage.js";
 import recorder from "./recorder.js";
+import warp from "./warp.js";
 
 export default class Effect {
   constructor(canvas, controls) {
@@ -70,17 +71,6 @@ export default class Effect {
     this.particleArray.forEach((particle) => particle.update());
   }
 
-  warp() {
-    const warpButton = document.createElement('button')
-    warpButton.id = 'warpButton'
-    warpButton.innerHTML = "Warp"
-    warpButton.addEventListener("click", () => {
-      this.particleArray.forEach((particle) => particle.warp());
-    });
-    this.controls.appendChild(warpButton)
-    return warpButton
-  }
-
   clearCanvas() {
     this.context.clearRect(0, 0, this.width, this.height);
   }
@@ -97,3 +87,4 @@ export default class Effect {
 
 Effect.prototype.drawImage = drawImage
 Effect.prototype.recorder = recorder
+Effect.prototype.warp = warp

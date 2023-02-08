@@ -14,7 +14,7 @@ function main() {
   effect.drawImage(this);
   effect.init();
   effect.warp();
-  effect.recorder(1);
+  effect.recorder();
   effect.animate();
 }
 
