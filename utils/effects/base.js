@@ -1,4 +1,4 @@
-export class Base {
+export class base {
   constructor(effect, x0, y0, color) {
     this.effect = effect;
     this.x0 = x0;

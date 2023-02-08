@@ -2,7 +2,7 @@ import * as particles from "./particle.js";
 import * as tools from './tools.js'
 
 export default class Effect {
-  constructor(canvas, controls) {
+  constructor(canvas, controls, type = 'classic') {
     this.controls = controls
     this.canvas = canvas;
     this.context = canvas.getContext("2d");
@@ -17,7 +17,7 @@ export default class Effect {
       x: undefined,
       y: undefined,
     };
-    this.Particle = particles.Classic
+    this.Particle = particles[type]
   }
 
   init(skip = 1) {

@@ -1,6 +1,6 @@
-import { Base } from "./base.js";
+import { base } from "./base.js";
 
-class Classic extends Base {
+class classic extends base {
   constructor(effect, x0, y0, color) {
     super(effect, x0, y0, color);
 
@@ -51,4 +51,4 @@ class Classic extends Base {
   }
 }
 
-export { Classic };
+export { classic };

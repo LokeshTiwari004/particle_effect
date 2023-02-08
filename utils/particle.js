@@ -1,1 +1,1 @@
-export { Classic } from "./effects/Classic.js";
+export { classic } from "./effects/Classic.js";
