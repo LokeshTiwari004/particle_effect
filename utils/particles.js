@@ -37,7 +37,7 @@ export default class Particle {
         this.x += this.vx + (this.x0 - this.x) * this.ease
         this.y += this.vy + (this.y0 - this.y) * this.ease
         
-        if (this.rxr < this.RXR && this.rxr) {
+        if (this.rxr < this.RXR) {
             this.acc = - Math.log10(this.RXR / this.rxr)
             this.angle = Math.atan2(this.dy, this.dx)
             this.vx += this.acc * Math.cos(this.angle)
