@@ -1,12 +1,14 @@
 import Particle from "./particles.js";
+import drawImage from "./drawImage.js";
 
 export default class Effect {
-  constructor(canvas, context, imgInfo) {
-    this.context = context;
+  constructor(canvas, controls) {
+    this.controls = controls
     this.canvas = canvas;
+    this.context = canvas.getContext("2d");
     this.width = canvas.width;
     this.height = canvas.height;
-    this.imgInfo = imgInfo;
+    this.imgInfo = [0, 0, this.width, this.height];
 
     this.particleArray;
     this.skip;
@@ -18,29 +20,20 @@ export default class Effect {
   }
 
   init(skip = 1) {
-    const height = this.imgInfo.height;
-    const width = this.imgInfo.width;
-    const topLeftX = this.imgInfo.topLeftX;
-    const topLeftY = this.imgInfo.topLeftY;
-
     if (skip < 0) {
       throw new Error(
         `\ value of skip argument must be non-negative. Assigned value is ${skip}\n\ arg skip: number of pixels to skip after every pixel selection in a row`
       );
     } else {
+      this.skip = skip;
+
       window.addEventListener("mousemove", (e) => {
         this.mouse.x = e.x;
         this.mouse.y = e.y;
       });
 
-      this.skip = skip;
-
-      const imageData = this.context.getImageData(
-        topLeftX,
-        topLeftY,
-        width,
-        height
-      );
+      const [topLeftX, topLeftY, width, height] = this.imgInfo;
+      const imageData = this.context.getImageData(...this.imgInfo);
 
       const pixels = [];
       for (let r = 0; r < height; r += skip + 1) {
@@ -64,6 +57,7 @@ export default class Effect {
         }
       }
       this.particleArray = pixels;
+      // console.log(this.particleArray.length);
     }
   }
 
@@ -75,10 +69,15 @@ export default class Effect {
     this.particleArray.forEach((particle) => particle.update());
   }
 
-  warp(button) {
-    button.addEventListener("click", () => {
+  warp() {
+    const warpButton = document.createElement('button')
+    warpButton.id = 'warpButton'
+    warpButton.innerHTML = "Warp"
+    warpButton.addEventListener("click", () => {
       this.particleArray.forEach((particle) => particle.warp());
     });
+    this.controls.appendChild(warpButton)
+    return warpButton
   }
 
   clearCanvas() {
@@ -94,7 +93,7 @@ export default class Effect {
     requestAnimationFrame(() => this.animate());
   };
 
-  initRecording(container, recording = 0) {
+  initRecording(recording = 0) {
     if (recording in [0, 1]) {
       var link = document.createElement("a");
 
@@ -145,8 +144,8 @@ export default class Effect {
         : "Start Recording";
       toggleRecorder.addEventListener("click", (e) => toggleRecord(e));
 
-      container.appendChild(toggleRecorder);
-      container.appendChild(save);
+      this.controls.appendChild(toggleRecorder);
+      this.controls.appendChild(save);
 
       recording ? mediaRecorder.start() : undefined;
     } else {
@@ -156,3 +155,5 @@ export default class Effect {
     }
   }
 }
+
+Effect.prototype.drawImage = drawImage
