@@ -15,20 +15,21 @@ export default class Effect {
       x: undefined,
       y: undefined,
     };
-    window.addEventListener("mousemove", (e) => {
-      this.mouse.x = e.x;
-      this.mouse.y = e.y;
-    });
   }
 
   init(skip = 1) {
     if (skip < 0) {
       throw new Error(
         "\
-            skip: number of pixels to skip after every pixel selection in a row \n\
-            Error: value of skip must non-negative"
-      )
+        skip: number of pixels to skip after every pixel selection in a row \n\
+        Error: value of skip must non-negative"
+      );
     } else {
+      window.addEventListener("mousemove", (e) => {
+        this.mouse.x = e.x;
+        this.mouse.y = e.y;
+      });
+
       this.skip = skip;
       const height = this.imgInfo.height;
       const width = this.imgInfo.width;
@@ -95,57 +96,67 @@ export default class Effect {
   };
 
   initRecording(container, recording = 0) {
-    var link = document.createElement("a");
+    if (recording in [0, 1]) {
+      var link = document.createElement("a");
 
-    var videoStream = this.canvas.captureStream(60);
-    var mediaRecorder = new MediaRecorder(videoStream);
+      var videoStream = this.canvas.captureStream(60);
+      var mediaRecorder = new MediaRecorder(videoStream);
 
-    var chunks = [];
-    mediaRecorder.ondataavailable = (e) => {
-      chunks.push(e.data);
-    };
-    mediaRecorder.onstop = () => {
-      var blob = new Blob(chunks, { type: "video/mp4" });
-      chunks = [];
-      var blobURL = URL.createObjectURL(blob);
-      link.href = blobURL;
-      link.download = "video.mp4";
-    };
+      var chunks = [];
+      mediaRecorder.ondataavailable = (e) => {
+        chunks.push(e.data);
+      };
+      mediaRecorder.onstop = () => {
+        var blob = new Blob(chunks, { type: "video/mp4" });
+        chunks = [];
+        var blobURL = URL.createObjectURL(blob);
+        link.href = blobURL;
+        link.download = "video.mp4";
+      };
 
-    const save = document.createElement("button");
-    save.id = "save";
-    save.style.display = "none";
-    save.innerHTML = "Save";
-    save.addEventListener("click", () => {
-      link.click();
+      const save = document.createElement("button");
+      save.id = "save";
       save.style.display = "none";
-    });
-
-    var recording = recording;
-    function toggleRecord(e) {
-      if (recording) {
-        recording = 0;
-        mediaRecorder.stop();
-
-        e.target.innerHTML = "Start Recording";
-        save.style.display = "inline";
-      } else {
-        recording = 1;
-        mediaRecorder.start();
-
-        e.target.innerHTML = "Stop Recording";
+      save.innerHTML = "Save";
+      save.addEventListener("click", () => {
+        link.click();
         save.style.display = "none";
+      });
+
+      function toggleRecord(e) {
+        if (recording) {
+          recording = 0;
+          mediaRecorder.stop();
+
+          e.target.innerHTML = "Start Recording";
+          save.style.display = "inline";
+        } else {
+          recording = 1;
+          mediaRecorder.start();
+
+          e.target.innerHTML = "Stop Recording";
+          save.style.display = "none";
+        }
       }
+
+      const toggleRecorder = document.createElement("button");
+      toggleRecorder.id = "toggleRecorder";
+      toggleRecorder.innerHTML = recording
+        ? "Stop Recording"
+        : "Start Recording";
+      toggleRecorder.addEventListener("click", (e) => toggleRecord(e));
+
+      container.appendChild(toggleRecorder);
+      container.appendChild(save);
+
+      recording ? mediaRecorder.start() : undefined;
+    } else {
+      throw new Error(
+        "recording argument has only two acceptable values\n\
+        0: sets recorder \n\
+        1: sets recorder and starts recording\
+        "
+      );
     }
-
-    const toggleRecorder = document.createElement("button");
-    toggleRecorder.id = "toggleRecorder";
-    toggleRecorder.innerHTML = recording ? "Stop Recording" : "Start Recoring";
-    toggleRecorder.addEventListener("click", (e) => toggleRecord(e));
-
-    container.appendChild(toggleRecorder);
-    container.appendChild(save);
-
-    recording ? mediaRecorder.start() : undefined;
   }
 }
