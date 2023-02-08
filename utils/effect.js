@@ -1,4 +1,4 @@
-import * as particles from "./particle.js";
+import * as particles from "./particles.js";
 import * as tools from './tools.js'
 
 export default class Effect {
