@@ -19,7 +19,7 @@ export default class Particle {
         
         this.color = color
         this.size = this.effect.skip + 1;
-        this.ease = 0.05
+        this.ease = 0.1
     }
     
     draw() {
