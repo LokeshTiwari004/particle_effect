@@ -15,11 +15,11 @@ export default class Particle {
         this.rxr = 0
         this.angle = 0
         this.acc = 0
-        this.drag = .99
+        this.drag = 0.95
         
         this.color = color
         this.size = this.effect.skip + 1;
-        this.ease = 0.2
+        this.ease = 0.05
     }
     
     draw() {
@@ -48,5 +48,12 @@ export default class Particle {
     warp() {
         this.x = Math.random() * this.effect.width
         this.y = Math.random() * this.effect.height
+        this.vx = 0
+        this.vy = 0
+        this.dx = 0
+        this.dy = 0
+        this.rxr = 0
+        this.angle = 0
+        this.acc = 0
     }
 }
