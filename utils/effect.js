@@ -1,7 +1,7 @@
 import Particle from "./particles.js";
 
 export default class Effect {
-  constructor(context, canvas, imgInfo) {
+  constructor(canvas, context, imgInfo) {
     this.context = context;
     this.canvas = canvas;
     this.width = canvas.width;

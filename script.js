@@ -13,7 +13,7 @@ let img = new Image();
 img.onload = main;
 function main() {
   const imgInfo = drawImage(this, canvas, context);
-  const effect = new Effect(context, canvas, imgInfo);
+  const effect = new Effect(canvas, context, imgInfo);
   effect.init();
   effect.warp(warpButton);
   effect.initRecording(document.querySelector(".controls"), 1);
