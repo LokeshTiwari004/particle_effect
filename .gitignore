@@ -1,5 +1,7 @@
-/.vscode
+.vscode
+
 /images
+
 /index.html
 /script.js
 /style.css
