@@ -1,10 +1,10 @@
-export default class Particle {
-  constructor(effect, x0, y0, color) {
-    this.effect = effect;
-    this.RXR = this.effect.mouse.RXR;
+import { Base } from "./base.js";
 
-    this.x0 = x0;
-    this.y0 = y0;
+class Classic extends Base {
+  constructor(effect, x0, y0, color) {
+    super(effect, x0, y0, color);
+
+    this.RXR = this.effect.mouse.RXR;
     this.x = Math.random() * effect.width;
     this.y = Math.random() * effect.height;
 
@@ -17,14 +17,7 @@ export default class Particle {
     this.acc = 0;
     this.drag = 0.95;
 
-    this.color = color;
-    this.size = this.effect.skip + 1;
     this.ease = 0.1;
-  }
-
-  draw() {
-    this.effect.context.fillStyle = this.color;
-    this.effect.context.fillRect(this.x, this.y, this.size, this.size);
   }
 
   update() {
@@ -57,3 +50,5 @@ export default class Particle {
     this.acc = 0;
   }
 }
+
+export { Classic };

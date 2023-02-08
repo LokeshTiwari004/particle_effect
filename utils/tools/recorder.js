@@ -1,4 +1,4 @@
-export default function recorder(recording = 0) {
+export function recorder(recording = 0) {
     if (recording in [0, 1]) {
       var link = document.createElement("a");
 

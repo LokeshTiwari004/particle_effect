@@ -1,7 +1,5 @@
-import Particle from "./particles.js";
-import drawImage from "./drawImage.js";
-import recorder from "./recorder.js";
-import warp from "./warp.js";
+import * as particles from "./particle.js";
+import * as tools from './tools.js'
 
 export default class Effect {
   constructor(canvas, controls) {
@@ -19,6 +17,7 @@ export default class Effect {
       x: undefined,
       y: undefined,
     };
+    this.Particle = particles.Classic
   }
 
   init(skip = 1) {
@@ -54,7 +53,7 @@ export default class Effect {
           const y0 = topLeftY + r;
 
           pixels.push(
-            new Particle(this, x0, y0, `rgb(${red},${green},${blue})`)
+            new this.Particle(this, x0, y0, `rgb(${red},${green},${blue})`)
           );
         }
       }
@@ -85,6 +84,6 @@ export default class Effect {
   };
 }
 
-Effect.prototype.drawImage = drawImage
-Effect.prototype.recorder = recorder
-Effect.prototype.warp = warp
+Effect.prototype.drawImage = tools.drawImage
+Effect.prototype.recorder = tools.recorder
+Effect.prototype.warp = tools.warp

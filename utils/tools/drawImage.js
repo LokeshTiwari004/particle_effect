@@ -1,4 +1,4 @@
-export default function drawImage(image, fit = "center") {
+export function drawImage(image, fit = "center") {
   const wFac = image.width / this.canvas.width;
   const hFac = image.height / this.canvas.height;
   const fac = wFac > hFac ? wFac : hFac;
