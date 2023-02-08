@@ -18,11 +18,14 @@ export default class Effect {
   }
 
   init(skip = 1) {
+    const height = this.imgInfo.height;
+    const width = this.imgInfo.width;
+    const topLeftX = this.imgInfo.topLeftX;
+    const topLeftY = this.imgInfo.topLeftY;
+
     if (skip < 0) {
       throw new Error(
-        "\
-        skip: number of pixels to skip after every pixel selection in a row \n\
-        Error: value of skip must non-negative"
+        `\ value of skip argument must be non-negative. Assigned value is ${skip}\n\ arg skip: number of pixels to skip after every pixel selection in a row`
       );
     } else {
       window.addEventListener("mousemove", (e) => {
@@ -31,10 +34,6 @@ export default class Effect {
       });
 
       this.skip = skip;
-      const height = this.imgInfo.height;
-      const width = this.imgInfo.width;
-      const topLeftX = this.imgInfo.topLeftX;
-      const topLeftY = this.imgInfo.topLeftY;
 
       const imageData = this.context.getImageData(
         topLeftX,
@@ -152,10 +151,7 @@ export default class Effect {
       recording ? mediaRecorder.start() : undefined;
     } else {
       throw new Error(
-        "recording argument has only two acceptable values\n\
-        0: sets recorder \n\
-        1: sets recorder and starts recording\
-        "
+        `recording argument has only two acceptable values\n\ 0 (default): sets recorder \n\ 1: sets recorder and starts recording \n\ Assigned value is ${recording}`
       );
     }
   }
