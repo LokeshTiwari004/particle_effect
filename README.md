@@ -12,7 +12,7 @@ https://user-images.githubusercontent.com/85821171/216156678-6af95a1d-d190-4939-
 ---
 ### javascript file -- script.js
 ```javascript
-// copy the utils folder into your project and then import the Effect
+// copy the utils folder into your project and then import the Effect Class
 import Effect from "./utils/effect.js";
 
 // Catch the canvas element and set the desirable height and width
