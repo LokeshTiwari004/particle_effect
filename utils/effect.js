@@ -81,7 +81,7 @@ export default class Effect {
       particle.draw();
       particle.update();
     });
-    requestAnimationFrame(() => this.animate());
+    requestAnimationFrame(this.animate);
   };
 }
 
